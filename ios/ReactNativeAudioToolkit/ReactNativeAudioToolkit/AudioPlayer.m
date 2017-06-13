@@ -289,9 +289,11 @@ RCT_EXPORT_METHOD(pause:(nonnull NSNumber*)playerId withCallback:(RCTResponseSen
                                 @"position": @(CMTimeGetSeconds(player.currentTime) * 1000)}]);
     
     
-    NSDictionary* dict = [Helpers errObjWithCode:@"pause"
-                                         withMessage:[NSString stringWithFormat:@"Playback paused", playerId]];
-    callback(@[dict]);
+    NSString *eventName = [NSString stringWithFormat:@"RCTAudioPlayerEvent:%@", playerId];
+        [self.bridge.eventDispatcher sendAppEventWithName:eventName
+                                                     body:@{@"event": @"pause",
+                                                            @"data" : [NSNull null]
+                                                            }];
 }
 
 RCT_EXPORT_METHOD(resume:(nonnull NSNumber*)playerId withCallback:(RCTResponseSenderBlock)callback) {
