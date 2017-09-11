@@ -188,6 +188,10 @@ RCT_EXPORT_METHOD(seek:(nonnull NSNumber*)playerId withPos:(nonnull NSNumber*)po
         return;
     }
     
+    if(player.status != AVPlayerStatusReadyToPlay) { // Seek doesn't work until player is ready
+        return;
+    }
+    
     [player cancelPendingPrerolls];
     
     if (position >= 0) {
